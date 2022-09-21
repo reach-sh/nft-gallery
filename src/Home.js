@@ -64,6 +64,7 @@ const Navbar = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+    align-items: center;
 `;
 const Logo = styled.img`
   width: 11.25em;
@@ -88,6 +89,7 @@ const Links = styled.span`
   width: 40%;
   white-space: nowrap;
   overflow: hidden;
+  /* text-align: center; */
 `;
 const Connect = styled.div``;
 const ConnectWalletButton = styled((props) => <Button {...props} />)`
@@ -118,6 +120,8 @@ const Footer = styled.div`
   min-height: 18%;
   background: #000000;
   padding: 1%;
+  display: flex;
+  align-items: center;
 `;
 const Socials = styled.div`
 display: flex;
