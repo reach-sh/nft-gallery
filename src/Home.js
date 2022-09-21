@@ -190,6 +190,7 @@ flex-direction:  column;
 justify-content: space-between ;
 width: 87.5%;
 height: 101px;
+margin-left: 6.25%;
 `
 
 
