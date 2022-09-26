@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../public/assets/ReachLogo-InLine.png";
 import graphic from "../public/assets/ERC_GALLERY_GRAPHIC_1.png";
-import wallet from "../public/assets/WalletIcon.png";
+import Navbar from "./Navbar";
 import spotify from "../public/assets/spotify.png"
 import styled from "styled-components";
-import { Link as L } from "react-router-dom";
+import {useHistory } from "react-router-dom";
 import Button from "./Button";
 import reddit from "../public/assets/reddit.png"
 import github from "../public/assets/github.png"
@@ -13,11 +13,7 @@ import discord from "../public/assets/discord.png"
 import twitter from "../public/assets/twitter.png"
 
 
-const links = [
-  { displayText: "Gallery", address: "/" },
-  { displayText: "About Reach", address: "/reach" },
-  { displayText: "How To Build", address: "/how-to-build" },
-];
+
 
 const socials = [
   { logo: spotify, 
@@ -54,22 +50,7 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const Navbar = styled.div`
-  max-height: 8%;
-  left: 0px;
-  top: 0px;
-  border-radius: 0px;
-  padding: 24px 120px 24px 120px;
-  background: #000000;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-    align-items: center;
-`;
-const Logo = styled.img`
-  width: 11.25em;
-  height: 2.3125em;
-`;
+
 
 const FooterLogo = styled.img`
   width:8.8125em;
@@ -81,22 +62,9 @@ const Graphic = styled.img`
   height: 100%;
   justify-self: center;
 `;
-const Links = styled.span`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 3%;
-  width: 40%;
-  white-space: nowrap;
-  overflow: hidden;
-  /* text-align: center; */
-`;
-const Connect = styled.div``;
-const ConnectWalletButton = styled((props) => <Button {...props} />)`
-  margin-right: 7%;
-  width: 260px;
-  height: 48px;
-`;
+
+
+
 
 const Main = styled.div`
   height: 73%;
@@ -154,16 +122,6 @@ const Subtext = styled.div`
   max-height: 56px;
 `;
 
-const Link = styled((props) => <L {...props} />)`
-  font-family: "Reach Favorit";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 28px;
-  text-align: center;
-  color: #ffffff;
-  text-decoration: none;
-`;
 const NetworkSelector = styled.select`
 display: flex;
 flex-direction: row;
@@ -230,27 +188,12 @@ const SocialLogo = styled.div`
   margin-right: 4px;
 `
 
-class Home extends React.Component {
-  render() {
+const Home = () => {
+     const [networkSelection, setNetwork] = useState('ethereum');
+     const history = useHistory();
     return (
       <Container>
-        <Navbar>
-          <Logo src={logo} alt="logo" />
-          <Links>
-            {links.map((link) => (
-              <Link key={link.displayText} to={link.address}>
-                {link.displayText}
-              </Link>
-            ))}
-          </Links>
-          <Connect>
-            <ConnectWalletButton
-              label="Connect Wallet"
-              backgroundColor="main"
-              postIcon={wallet}
-            />
-          </Connect>
-        </Navbar>
+        <Navbar />
         <Main>
           <Interact>
             <Headline>
@@ -263,14 +206,15 @@ class Home extends React.Component {
             <Action>
               <Selector>
                 Select Network{" "}
-                <NetworkSelector type={"select"}>
-                  <Option value={"ethereum"}>Ethereum</Option>
+                <NetworkSelector type={"select"} value={networkSelection} onChange={setNetwork}>
+                  <Option value={'ethereum'} >Ethereum</Option>
                 </NetworkSelector>
                 <Gallery
                   label="See Gallery"
                   size="m"
                   decorative
                   backgroundColor="primary"
+                  onClick={history.push(`/gallery/${networkSelection}`)}
                 />
               </Selector>
               <Build
@@ -295,7 +239,6 @@ class Home extends React.Component {
         </Footer>
       </Container>
     );
-  }
 }
 
 export default Home;
