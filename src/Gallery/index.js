@@ -10,11 +10,11 @@ import CategorySelector from "./CategorySelector";
 const categories = ["All", "For Sale", "Owned"];
 
 const Page = styled.div`
-  background: #000000;
   max-width: 1920px;
   display: flex;
   flex-direction: column;
-  background-position: 0% 0% ;
+  background: url(${decoBG}) no-repeat center center fixed #000000;
+  background-position: 100% 100% ;
   `;
 const Gallery = styled.div`
   display: grid;
@@ -29,13 +29,7 @@ const Gallery = styled.div`
 
 const Main = styled.div`
   display: flex;
-  flex-direction: row;
-  background: #000000;
-  background-image: url(${decoBG}) no-repeat center center fixed;
-    -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  flex-direction: row;    
 `;
 
 const Header = styled.div`
