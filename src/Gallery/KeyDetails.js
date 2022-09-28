@@ -1,28 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "./Button";
-import eth from "../public/assets/ethereum.png";
-import reach from "../public/assets/ReachLogo.png";
+import Button from "../Button";
+import eth from "../../public/assets/ethereum.png";
+import reach from "../../public/assets/ReachLogo.png";
 
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  width: 402px;
+  max-width: 402px;
   height: 631px;
   background: #333333;
   border-radius: 0px 16px 0px 0px;
   position: relative;
-  top: 50px;
-  left: 50px;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
 `;
+
 const Image = styled.img`
-  width: 370px;
+  max-width: 370px;
   height: 397px;
   margin: 16px 16px 16px;
 `;
+
 const Rarity = styled.div`
   width: 113.7px;
   height: 38px;
@@ -247,8 +247,6 @@ const Info = ({ name, number, setName }) => {
 };
 
 const GetCTA = ({ forSale, owned, price }) => {
-  console.log(forSale);
-  console.log(owned);
   if (!forSale && !owned) {
     return;
   }
