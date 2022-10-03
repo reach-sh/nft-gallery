@@ -51,8 +51,7 @@ const PriceBar = styled.div`
 `;
 
 export default () => {
-  const [lowerLimit, setLowerLimit] = useState(10);
-  const [upperLimit, setUpperLimit] = useState(10000);
+
   const rangeSlider = useRef();
   useEffect(() => {
     noUiSlider.create(rangeSlider.current, {
