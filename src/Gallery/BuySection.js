@@ -193,7 +193,7 @@ const Summary = ({
         />
       </ExpandedSummary>
     );
-  } else return null;
+  } else return null
 };
 
 const PriceSummary = ({ open, onChange }) => {
@@ -248,7 +248,6 @@ export default ({ data }) => {
         ) : (
           ""
         )}
-        ;
       </>
     );
   } else {
@@ -264,6 +263,6 @@ export default ({ data }) => {
           />
         )}
       </>
-    );
+    )
   }
 };

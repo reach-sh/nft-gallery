@@ -167,7 +167,7 @@ export default ({ data }) => {
       </NameAndNumber>
       <StatusSpan>
         <SaleStatus>{data.forSale ? "For Sale" : "Not For Sale"}</SaleStatus>
-        <OwnedStatus>{data.owned ? "Owned" : ""}</OwnedStatus>
+        {data.owned ? <OwnedStatus> Owned </OwnedStatus>: ""}
       </StatusSpan>
       <Owner>
         <OwnerLabel>Owner</OwnerLabel> 
