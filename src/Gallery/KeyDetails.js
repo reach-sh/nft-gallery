@@ -1,28 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "./Button";
-import eth from '../public/assets/eth.png'
-import reach from '../public/assets/ReachLogo.png'
+import Button from "../Button";
+import eth from "../../public/assets/ethereum.png";
+import reach from "../../public/assets/ReachLogo.png";
 
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  width: 402px;
+  max-width: 402px;
   height: 631px;
   background: #333333;
   border-radius: 0px 16px 0px 0px;
   position: relative;
-  top: 50px;
-  left: 50px;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
 `;
+
 const Image = styled.img`
-  width: 370px;
+  max-width: 370px;
   height: 397px;
   margin: 16px 16px 16px;
 `;
+
 const Rarity = styled.div`
   width: 113.7px;
   height: 38px;
@@ -133,7 +133,12 @@ const LowerPart = styled.div`
 const ListItem = styled((props) => <Button {...props} />)`
   width: 255px;
   height: 52px;
-    margin-top: 24px;
+  margin-top: 24px;
+  font-family: "Reach Favorit";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
 `;
 const UnlistItem = styled((props) => <Button {...props} />)`
   width: 167px;
@@ -156,20 +161,24 @@ const UnlistItem = styled((props) => <Button {...props} />)`
 `;
 
 const BuyButton = styled((props) => <Button {...props} />)`
-    width: 129px;
-height: 52px;
-font-family: 'Reach Favorit';
-font-style: normal;
-font-weight: 500;
-font-size: 24px;
-line-height: 28px
+  width: 129px;
+  height: 52px;
+  font-family: "Reach Favorit";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
 `;
 
 const Price = styled.div`
-    color: #ffffff;
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
+  color: #ffffff;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  width: 95px;
+  height: 28px;
+  gap: 10px;
+  white-space: nowrap;
 `;
 
 const StatusContainer = styled.div`
@@ -182,39 +191,36 @@ const StatusContainer = styled.div`
   left: 5px;
 `;
 const EthLogo = styled.img`
-    height: 32px;
-    width: 32px;
-    align-self: middle ;
-
-`
+  height: 32px;
+  width: 32px;
+  align-self: middle;
+`;
 
 const BuySpan = styled.span`
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 10px;
-width: 370px;
-height: 52px;
-margin-top: 16px;
-justify-content: space-between;
-align-content: center;
-`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 10px;
+  width: 370px;
+  height: 52px;
+  margin-top: 16px;
+  justify-content: space-between;
+  align-content: center;
+`;
 
 const ReachLogo = styled.img`
-    width: 24px;
-    height: 17.66px;
-    align-content: center ;
-    margin-top: 15%;
-    margin-left: -12px;
-`
+  width: 24px;
+  height: 17.66px;
+  align-content: center;
+  margin-top: 15%;
+  margin-left: -12px;
+`;
 
 const Inner = styled.div`
-    display: flex;
-    flex-direction: row;
-`
-
-
+  display: flex;
+  flex-direction: row;
+`;
 
 const ForSale = ({ forSale, owned }) => {
   return (
@@ -241,15 +247,17 @@ const Info = ({ name, number, setName }) => {
 };
 
 const GetCTA = ({ forSale, owned, price }) => {
-  console.log(forSale);
-  console.log(owned);
   if (!forSale && !owned) {
     return;
   }
   if (forSale && !owned) {
     return (
       <BuySpan>
-        <Price><EthLogo src={eth}/>{price}{'ETH'}</Price> <BuyButton label="BUY" backgroundColor="primary"/>
+        <Price>
+          <EthLogo src={eth} />
+          {`${price} ETH`}
+        </Price>
+        <BuyButton label="BUY" backgroundColor="primary" />
       </BuySpan>
     );
   }
@@ -257,7 +265,7 @@ const GetCTA = ({ forSale, owned, price }) => {
     return <ListItem label={"LIST FOR SALE"} backgroundColor="main" />;
   }
   if (forSale && owned) {
-    return <UnlistItem label="UNLIST" outline/>;
+    return <UnlistItem label="UNLIST" outline />;
   }
 };
 
@@ -266,7 +274,12 @@ export default (props) => {
   return (
     <Card>
       <Image src={url} />
-      <Rarity><Inner><ReachLogo src={reach}/><span style={{marginLeft: "16px"}}>{rarity}</span></Inner></Rarity>
+      <Rarity>
+        <Inner>
+          <ReachLogo src={reach} />
+          <span style={{ marginLeft: "16px" }}>{rarity}</span>
+        </Inner>
+      </Rarity>
       <StatusContainer>
         <ForSale forSale={forSale} owned={owned} />
       </StatusContainer>
