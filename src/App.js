@@ -5,6 +5,7 @@ import Gallery from './Gallery/index.js';
 import evieOrganized from '../public/assets/evieOrganized.png';
 import evieNoRadius from "../public/assets/evieNoRadius.png";
 import Details from "./Gallery/Details"
+import About from './About';
 import './App.css';
 const demo = { url: evieOrganized, rarity: "67.6%", forSale: false, owned: true, setName: "Evie Set", name: "Evie Organized", number: 13, price: 75 }
 const setsize = Math.floor(Math.random() * 100)
@@ -35,6 +36,7 @@ const App = () => (
     <Route exact={true} path="/" component={Home} />
     <Route exact={true} path="/gallery/:network" render={(props) => <Gallery nfts={nfts} {...props}/>}/>
     <Route exact={true} path="/gallery/detail/:id" component={Details} />
+    <Route exact={true} path="/about" component={About}/>
   </Switch>
 );
 
