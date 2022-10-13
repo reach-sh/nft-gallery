@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import divider from "../public/assets/red_vertical_divider.svg";
-
+import decoBGMobile from "../public/assets/decoBGMobile.svg";
 import decoBG from "../public/assets/deco_bg.svg";
 import bot from "../public/assets/bot.svg";
 import dummy from "../public/assets/dummy.svg";
@@ -11,13 +11,16 @@ import lock from "../public/assets/lock.svg";
 import keyboard from "../public/assets/keyboard.svg";
 import rocket from "../public/assets/rocket.svg";
 
+const Foot = styled((props) => <Footer {...props} />)`
+  height: 197px;
+`;
+
 const Bot = styled.img`
   width: 89.8px;
   height: 190.48px;
   position: absolute;
   margin-left: 195px;
 `;
-
 const Dummy = styled.img`
   width: 174.15px;
   height: 186.85px;
@@ -32,7 +35,6 @@ const Lock = styled.img`
   align-self: center;
   justify-self: flex-end;
 `;
-
 const Rocket = styled.img`
   position: absolute;
   width: 124.27px;
@@ -40,19 +42,35 @@ const Rocket = styled.img`
   align-self: flex-end;
   justify-self: center !important;
   top: 1670px;
+  @media only screen and (max-width: 375px) {
+    position: absolute;
+    left: 211.92px;
+    top: 3224.9px;
+  }
 `;
-
 const Page = styled.div`
   width: 1920px;
   height: 2272px;
   background: #000000;
+  @media only screen and (max-width: 375px) {
+    width: 375px;
+    display: flex;
+    flex-direction: column;
+    height: 3815px;
+    overflow-x: hidden;
+  }
 `;
 const Top = styled.div`
   width: 1920px;
   height: 1005px;
   background: no-repeat url(${decoBG});
   display: flex;
-  flex-direction: column ;
+  flex-direction: column;
+  @media only screen and (max-width: 375px) {
+    width: 375px;
+    height: 1005px;
+    background: no-repeat url(${decoBGMobile});
+  }
 `;
 const Middle = styled.div`
   width: 1920px;
@@ -61,6 +79,14 @@ const Middle = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  @media only screen and (max-width: 375px) {
+    flex-direction: column;
+    width: 375px;
+    height: 554px;
+    background: #000000;
+    color: #ffffff;
+    margin-top: 0px;
+  }
 `;
 const Bottom = styled.div`
   width: 1920px;
@@ -69,12 +95,23 @@ const Bottom = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  @media only screen and (max-width: 375px) {
+    flex-direction: column;
+    width: 375px;
+    height: 1953px;
+    padding: 0px;
+  }
+  padding: 10px;
 `;
 
 const KeyBoard = styled.img`
   width: 281.19px;
   height: 267.58px;
   align-self: center;
+  @media only screen and (max-width: 375px) {
+    width: 298.08px;
+    height: 283.65px;
+  }
 `;
 
 const Language = styled.div`
@@ -89,11 +126,20 @@ const Language = styled.div`
   justify-content: flex-end;
   margin-bottom: 80px;
   align-self: flex-end;
+  @media only screen and (max-width: 375px) {
+    width: 350px;
+    height: 350px;
+    margin-bottom: 26px;
+    align-self: center;
+  }
 `;
 
 const Divider = styled.img`
   height: 125px;
   margin-top: 86px;
+  @media only screen and (max-width: 375px) {
+    display: none;
+  }
 `;
 
 const CardNumber = styled.div`
@@ -109,7 +155,6 @@ const CardNumber = styled.div`
   font-size: 12px;
   line-height: 10px;
   color: #4536da;
-
 `;
 
 const Compiler = styled.div`
@@ -125,6 +170,12 @@ const Compiler = styled.div`
   margin-bottom: 80px;
   justify-content: flex-end;
   gap: 28px;
+  @media only screen and (max-width: 375px) {
+    width: 350px;
+    height: 538.46px;
+    margin-bottom: 26px;
+    align-self: center;
+  }
 `;
 
 const Verifier = styled.div`
@@ -157,6 +208,12 @@ const Devnet = styled.div`
   flex-direction: column;
   align-self: flex-end;
   margin-bottom: 80px;
+  @media only screen and (max-width: 375px) {
+    width: 350px;
+    height: 350px;
+    margin-bottom: 26px;
+    align-self: center;
+  }
 `;
 
 const DevNet = styled.div`
@@ -185,6 +242,12 @@ const Deployer = styled.div`
   align-self: flex-end;
   margin-bottom: 80px;
   gap: 28px;
+  @media only screen and (max-width: 375px) {
+    width: 350px;
+    height: 538.46px;
+    margin-bottom: 26px;
+    align-self:center ;
+  }
 `;
 
 const Multichain = styled.div`
@@ -207,6 +270,29 @@ const FeatureLabel = styled.div`
   font-size: 32px;
   line-height: 42px;
   margin-bottom: 24px;
+  @media only screen and (max-width: 375px) {
+    width: 163.25px;
+    height: 44.52px;
+    left: 102.48px;
+    top: 1994.73px;
+
+    /* Desktop/Header/H3 - Medium
+
+Decorative subtitles
+*/
+    font-family: "Reach Favorit";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 42px;
+    /* or 131% */
+
+    text-align: center;
+
+    /* Primary/Main/Reach Red */
+
+    color: #e04747;
+  }
 `;
 
 const VerifySubCard = styled.div`
@@ -262,6 +348,13 @@ const Headline = styled.div`
   line-height: 50px;
   color: #000000;
   margin-bottom: 26px;
+  @media only screen and (max-width: 375px) {
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 50px;
+    background: #000000;
+    color: #ffffff;
+  }
 `;
 const Text = styled.div`
   height: 60px;
@@ -272,6 +365,14 @@ const Text = styled.div`
   font-size: 16px;
   line-height: 20px;
   color: #000000;
+  @media only screen and (max-width: 375px) {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    background: #000000;
+    color: #ffffff;
+    align-self: center;
+  }
 `;
 const BragBox = styled.div`
   display: flex;
@@ -279,20 +380,32 @@ const BragBox = styled.div`
   align-content: center;
   justify-content: center;
   text-align: center;
+  @media only screen and (max-width: 375px) {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
 `;
 
 const Builders = styled.div`
-width: 686px;
-height: 270px;
-font-family: 'Reach Favorit';
-font-style: normal;
-font-weight: 700;
-font-size: 96px;
-line-height: 90px;
-color: #FFFFFF;
-margin-left: 262px;
-margin-top: 216px;
-
+  width: 686px;
+  height: 270px;
+  font-family: "Reach Favorit";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 96px;
+  line-height: 90px;
+  color: #ffffff;
+  margin-left: 262px;
+  margin-top: 216px;
+  @media only screen and (max-width: 375px) {
+    margin-left: 16px;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 60px;
+    width: 344px;
+    height: 180px;
+    margin-top: 80px;
+  }
 `;
 
 const TextBox = styled.div`
@@ -302,6 +415,12 @@ const TextBox = styled.div`
   height: 166px;
   margin-left: 262px;
   margin-top: 54px;
+  @media only screen and (max-width: 375px) {
+    margin-left: 16px;
+    width: 344px;
+    height: 228px;
+    margin-top: 18px;
+  }
 `;
 
 const SubTextA = styled.p`
@@ -322,7 +441,9 @@ export default () => (
   <Page>
     <Navbar />
     <Top>
-      <Builders>A language built <br/> by Builders</Builders>
+      <Builders>
+        A language built <br /> by Builders
+      </Builders>
       <TextBox>
         <SubTextA>
           {" "}
@@ -398,6 +519,6 @@ export default () => (
         <CardNumber>04</CardNumber>
       </Deployer>
     </Bottom>
-    <Footer />
+    <Foot />
   </Page>
 );

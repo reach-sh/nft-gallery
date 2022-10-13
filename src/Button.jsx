@@ -96,6 +96,8 @@ const Icon = styled.img`
   height: 18px;
 `
 
+const Label = styled.p``
+
 const Button = styled.button`
   background-color: ${(props) =>
     props.disabled
@@ -141,7 +143,7 @@ const Button = styled.button`
 export default (props) => {
   return (
     <Button disabled={props.disabled} {...props}>
-      {props.label} {props.postIcon ? <Icon src={props.postIcon}/> :""}
+      <Label>{props.label}</Label> {props.postIcon ? <Icon src={props.postIcon}/> :""}
     </Button>
   );
 };
