@@ -11,6 +11,7 @@ const Category = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
+  white-space: nowrap;
 `;
 
 const CategoryContainer = styled.div`
@@ -29,6 +30,8 @@ const Catbox = styled.div`
   flex-direction: row;
   justify-self: center;
   margin-left: 200px;
+   @media only screen and (max-width: 375px) {}
+   margin-left: 40px;
 `;
 export default ({ categories, selected }) => (
   <Catbox>

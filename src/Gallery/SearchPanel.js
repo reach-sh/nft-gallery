@@ -15,6 +15,10 @@ const Attributes = styled.div`
   flex-direction: column;
   gap: 24px;
   /* justify-content: flex-start; */
+   @media only screen and (max-width: 375px) {
+    display: none;
+   }
+
 `;
 const ResetButton = styled((props) => <Button {...props} />)`
   background-color: #000000;
@@ -26,6 +30,9 @@ const ResetButton = styled((props) => <Button {...props} />)`
   font-size: 24px;
   line-height: 28px;
   margin-top: 24px;
+  @media only screen and (max-width: 375px) {
+    display: none;
+   }
 `;
 const SearchInput = styled.div`
   width: 352px;
@@ -40,6 +47,9 @@ const SearchInput = styled.div`
 const SidePanel = styled.div`
   margin-left: 120px;
   margin-top: 48px;
+  @media only screen and (max-width: 375px) {
+    margin-left: 10px;
+   }
 `;
 const SearchInner = styled.input`
   width: 240px;

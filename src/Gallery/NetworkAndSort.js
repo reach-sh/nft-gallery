@@ -21,6 +21,13 @@ const SelectorContainer = styled.div`
   align-self: flex-end;
   left: 348px;
   right: 48px;
+   @media only screen and (max-width: 375px) {
+    position: absolute;
+    align-self: flex-start;
+    left: 32px;
+    top: 420px;
+   }
+
 `;
 
 const Selector = styled.select`

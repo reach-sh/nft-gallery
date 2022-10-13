@@ -30,16 +30,26 @@ const FooterLogo = styled.img`
 `;
 
 const Footer = styled.div`
-  min-height: 18%;
   background: #000000;
   padding: 1%;
   display: flex;
   align-items: center;
+  @media only screen and (max-width: 375px) {
+    position: relative;
+    width: 375px;
+    bottom: 0px;
+    margin-top: 64px;
+    height: 197px;
+  }
 `;
 const Socials = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  @media only screen and (max-width: 375px) {
+    /* gap: 24px; */
+    justify-content: space-between;
+  }
 `;
 
 const socials = [
