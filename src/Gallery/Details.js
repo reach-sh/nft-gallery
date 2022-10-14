@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import DataSection from "./DataSection";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, } from "react-router-dom";
 import { example } from "../App";
 import backArrow from "../../public/assets/backArrow.png";
 import reachBlack from "../../public/assets/reachLogoBlack.svg";
@@ -79,14 +79,17 @@ const Rarity = styled.div`
 export default () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
+
   useEffect(() => {
     const fetchData = (id) => {
       const fetched = example;
+      console.log(example)
       setData(fetched);
     };
 
     fetchData(id);
   });
+
   return (
     <Page>
       <Navbar />

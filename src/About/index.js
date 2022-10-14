@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import divider from "../public/assets/red_vertical_divider.svg";
-import decoBGMobile from "../public/assets/decoBGMobile.svg";
-import decoBG from "../public/assets/deco_bg.svg";
-import bot from "../public/assets/bot.svg";
-import dummy from "../public/assets/dummy.svg";
-import lock from "../public/assets/lock.svg";
-import keyboard from "../public/assets/keyboard.svg";
-import rocket from "../public/assets/rocket.svg";
+import Footer from "../Footer";
+import Navbar from "../Navbar";
+import bot from "../../public/assets/bot.svg";
+import decoBGMobile from "../../public/assets/decoBGMobile.svg";
+import decoBG from "../../public/assets/deco_bg.svg";
+import dummy from "../../public/assets/dummy.svg";
+import keyboard from "../../public/assets/keyboard.svg";
+import lock from "../../public/assets/lock.svg";
+import divider from "../../public/assets/red_vertical_divider.svg";
+import rocket from "../../public/assets/rocket.svg";
 
 const Foot = styled((props) => <Footer {...props} />)`
   height: 197px;

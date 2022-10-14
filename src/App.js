@@ -1,11 +1,12 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Home from './Home';
 import Gallery from './Gallery/index.js';
 import evieOrganized from '../public/assets/evieOrganized.png';
 import evieNoRadius from "../public/assets/evieNoRadius.png";
 import Details from "./Gallery/Details"
 import About from './About';
+import ListForSale from './Gallery/ListForSale';
 import './App.css';
 const demo = { url: evieOrganized, rarity: "67.6%", forSale: false, owned: true, setName: "Evie Set", name: "Evie Organized", number: 13, price: 75 }
 const setsize = Math.floor(Math.random() * 100)
@@ -31,13 +32,22 @@ export const example = {
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     networkToken: "ETH"
 }
-const App = () => (
-  <Switch>
+const App = () => {
+  const location = useLocation()
+  const background = location.state && location.state.background;
+  console.log(location)
+  console.log(background)
+  return (
+    <div>
+      <Switch location={background || location}>
     <Route exact={true} path="/" component={Home} />
     <Route exact={true} path="/gallery/:network" render={(props) => <Gallery nfts={nfts} {...props}/>}/>
     <Route exact={true} path="/gallery/detail/:id" component={Details} />
+    {/* <Route exact={true} path="/gallery/list/:id" component={Details} />  */}
     <Route exact={true} path="/about" component={About}/>
   </Switch>
-);
+  {background && <Route path="/gallery/list/:id" children={<ListForSale />} />}
+    </div>
+)};
 
 export default App;

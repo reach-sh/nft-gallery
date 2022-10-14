@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "../Button";
 import eth from "../../public/assets/ethereum.png";
 import reach from "../../public/assets/ReachLogo.png";
+import { useHistory } from "react-router-dom";
 
 const Card = styled.div`
   display: flex;
@@ -415,8 +416,9 @@ const GetCTA = ({ forSale, owned, price }) => {
 
 export default (props) => {
   const { url, rarity, forSale, owned, setName, name, number, price } = props;
+  const history = useHistory()
   return (
-    <Card>
+    <Card onClick={() => history.push(`/gallery/detail/${number}`)}>
       <Image src={url} />
       <Rarity>
         <Inner>
