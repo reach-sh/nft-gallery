@@ -75,6 +75,8 @@ export default ({
   sortBy,
   setSortBy,
 }) => {
+  console.log(sortBy);
+  console.log(setSortBy);
   return (
     <SelectorContainer>
       <SelectNetwork>
@@ -87,7 +89,7 @@ export default ({
       </SelectNetwork>
       <SortBy>
         Sort By{" "}
-        <Select options={sortOptions} value={sortBy} onChange={setSortBy} />{" "}
+        <Select options={sortOptions} value={sortBy} onChange={() => {console.log(e.target.value);return setSortBy(e.target.value)}} />{" "}
       </SortBy>
     </SelectorContainer>
   );

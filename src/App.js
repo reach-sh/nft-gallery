@@ -11,7 +11,7 @@ import './App.css';
 const demo = { url: evieOrganized, rarity: "67.6%", forSale: false, owned: true, setName: "Evie Set", name: "Evie Organized", number: 13, price: 75 }
 const setsize = Math.floor(Math.random() * 100)
 const set = Array.from(Array(setsize).keys())
-const nfts = set.map((value) => ({...demo, number: value, forSale: (Math.random() < 0.5), owned: (Math.random() < 0.5)}))
+const nfts = set.map((value) => ({...demo, number: value, forSale: (Math.random() < 0.5), owned: (Math.random() < 0.5),  price: Math.floor(Math.random() * 1000) }))
 export const example = {
     collectionSize: 24,
     owner: "1234567890987654321",

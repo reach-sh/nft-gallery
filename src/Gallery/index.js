@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import KeyDetails from "./KeyDetails";
 import Navbar from "../Navbar";
@@ -77,10 +77,44 @@ const TopInfo = styled.div`
   flex-direction: row;
   justify-content: center;
 `;
-export default ({ nfts }) => {
-  const [selectedCategory, selectCategory] = useState("All");
-  const [selectedNetwork, selectNetwork] = useState();
-  const [sortBy, setSortBy] = useState();
+
+
+const sort = (nfts, sortBy) => {
+  console.log(nfts)
+  console.log(sortBy)
+  const forsale = nfts.filter((nft) => (nft.forSale === true))
+  const notforsale = nfts.filter((nft) => (nft.forSale === false))
+  let compareFn;
+  switch (sortBy) {
+    case 'lowTohigh':
+      compareFn = (a, b) => a.price - b.price
+      break;
+      case 'highToLow':
+        compareFn = (a, b) => ( b.price - a.price)
+        break;
+      }
+      console.log(compareFn)
+      let sorted =  forsale.sort(compareFn)
+      console.log('this should be sorted')
+      console.log(sorted)
+      sorted.push(...notforsale)
+      return sorted
+    }
+    
+    export default ({ nfts }) => {
+      const [selectedCategory, selectCategory] = useState("All");
+      const [selectedNetwork, selectNetwork] = useState();
+      const [sortBy, setSortBy] = useState('highToLow');
+      const [sortedNFTs, setSortedNFTS] = useState(nfts)
+      const [, updateState] = React.useState();
+      const forceUpdate = React.useCallback(() => updateState({}), []);
+      
+      useEffect(() => {
+    const sorted = sort(nfts, sortBy)
+    setSortedNFTS(sorted)
+    forceUpdate()
+  }, [sortBy])
+console.log(sortedNFTs)
   return (
     <Page>
       <Navbar />
@@ -101,7 +135,7 @@ export default ({ nfts }) => {
       <Main>
         <SearchPanel networkToken={"ETH"} />
         <Gallery>
-          {nfts.map((value) => (
+          {sortedNFTs.map((value) => (
             <KeyDetails key={value.number} {...value} />
           ))}
         </Gallery>

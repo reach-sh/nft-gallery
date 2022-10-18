@@ -54,13 +54,16 @@ export default () => {
 
   const rangeSlider = useRef();
   useEffect(() => {
-    noUiSlider.create(rangeSlider.current, {
-      range: { min: 10, max: 10000 },
-      start: [10, 10000],
-      margin: 100,
-      connect: false,
-    });
-  });
+    if(rangeSlider.current === undefined){
+
+      noUiSlider.create(rangeSlider.current, {
+        range: { min: 0, max: 10000 },
+        start: [10, 10000],
+        margin: 100,
+        connect: false,
+      });
+    }
+  }, );
 
   return (
     <Container>
