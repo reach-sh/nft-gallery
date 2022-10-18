@@ -255,6 +255,9 @@ const UnlistItem = styled((props) => <Button {...props} />)`
   background: transparent;
   border-color: #ffffff;
   margin-top: 24px;
+  p{
+    margin: unset;
+  }
   @media only screen and (max-width: 375px) {
     width: 78px;
     height: 24px;
