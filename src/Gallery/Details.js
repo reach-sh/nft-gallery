@@ -29,7 +29,6 @@ const Badge = styled.div`
   background: #ffffff;
   border-radius: 20px;
   color: #000000;
-  /* justify-content: center ; */
   align-content: center;
   text-align: center;
 `;

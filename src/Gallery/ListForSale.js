@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import x from "../../public/assets/closeX.svg";
 import Button from "../Button";
 import { example } from "../App";
+import { useHistory } from "react-router";
 import Truncate from "react-truncate";
+const borderValidity = (valid) => {
+  let color;
+  console.log(valid)
+  switch (valid) {
+    case "valid":
+      color = "#4536DA";
+      break
+    case "invalid":
+      color = "#E04747";
+      break
+    case "empty":
+      color = "#333333";
+      break
+  }
 
+  return color;
+};
 const ListModal = styled.div`
   position: absolute;
   z-index: 0;
@@ -90,7 +107,7 @@ export default () => {
   return (
     <ListModal>
       <CloseDiv>
-        <CloseX src={x} />
+        <CloseX src={x} onClick={() => history.go(-1)} />
       </CloseDiv>
       <MainDiv>
         <HeaderContainer>
@@ -139,7 +156,7 @@ const ConfirmButton = styled((props) => <Button {...props} />)`
   line-height: 20px;
 `;
 const CancelLink = styled.a`
-    text-decoration: underline;
+  text-decoration: underline;
 `;
 const DescriptionBox = styled.div`
   display: flex;
@@ -181,14 +198,16 @@ const Price = styled.div`
   display: flex;
   flex-direction: row;
   background: #ffffff;
-  border: 1px solid #4536da;
+  border: 1px solid;
+  border-color: ${props => borderValidity(props.valid)};
   border-radius: 8px;
 `;
 
 const Discovery = styled.div`
   display: flex;
   flex-direction: row;
-  border: 1px solid #4536da;
+  border: 1px solid; 
+  border-color: ${(props) => borderValidity(props.valid)};
   border-radius: 8px;
   background: #ffffff;
 `;
@@ -220,7 +239,7 @@ const Denomination = styled.div`
   width: auto;
   height: 40px;
   background: #cccccc;
-  border-radius:  0px 8px 8px 0px ;
+  border-radius: 0px 8px 8px 0px;
 `;
 
 const Label = styled.label`
@@ -235,9 +254,59 @@ const PriceBox = styled.div`
   flex-direction: column;
 `;
 
+const tempRoyalty = Math.random()
+
 const InfoBox = (nft) => {
-  console.log(nft);
+  const history = useHistory();
   const info = nft.info;
+  const [price, setPrice] = useState("");
+  const [fee, setFee] = useState("");
+  const [feeValid, setFeeValid] = useState('empty');
+  const [priceValid, setPriceValid] = useState('empty');
+  const [royalty, setRoyalty] = useState();
+  
+  const validatePrice = (price) => {
+    if (~~price === 0 || "") {
+      setPriceValid("empty");
+    }
+    if (price > 0) {
+      setPriceValid("valid");
+    } else if (isNaN(price)) {
+      setPriceValid("invalid");
+    }
+  };
+  
+  const validateFee = (fee) =>{
+    console.log(typeof fee)
+    console.log(fee.length)
+    if(fee.length === 0){
+      console.log('eureka')
+      setFeeValid('empty')
+    }
+    
+    if(isNaN(fee) || ~~fee > (100 - (royalty))){
+      setFeeValid('invalid')
+    } else if (~~fee > 1.5 && ~~fee < (100 - royalty)) {
+      setFeeValid("valid");
+    } else if (fee.length === 0) {
+      setFeeValid("empty");
+    }
+    //  else if (isNaN(~~fee) || ~~fee < 1.5 || ~~fee > (100 - (100*royalty))) {
+      //     setFeeValid("invalid");
+      //   }
+    }
+    
+    useEffect(() => {
+      validatePrice(price);
+    }, [price]);
+    
+    useEffect(() => {
+      validateFee(fee)
+    }, [fee])
+
+    useEffect(() => {
+      setRoyalty(tempRoyalty)
+    })
   return (
     <Info>
       <NftInfo>
@@ -250,21 +319,24 @@ const InfoBox = (nft) => {
       <PriceInfo>
         <PriceBox>
           <Label>Price</Label>
-          <Price>
-            <PriceInput />
+          <Price valid={priceValid}>
+            <PriceInput
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
             <Denomination>ETH</Denomination>
           </Price>
         </PriceBox>
         <PriceBox>
           <Label>Discovery Fee</Label>
-          <Discovery>
-            <PriceInput />
+          <Discovery valid={feeValid}>
+            <PriceInput value={fee} onChange={(e) => setFee(e.target.value)} />
             <Denomination>%</Denomination>
           </Discovery>
         </PriceBox>
       </PriceInfo>
       <ConfirmButton label="CONFIRM" backgroundColor="primary" />{" "}
-      <CancelLink> Cancel</CancelLink>
+      <CancelLink onClick={() => history.go(-1)}> Cancel</CancelLink>
     </Info>
   );
 };
