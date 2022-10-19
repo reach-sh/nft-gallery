@@ -4,8 +4,10 @@ import dropdown from "../../public/assets/dropdown.png";
 
 const networkOptions = [{ name: "Ethereum", value: "ethereum" }];
 const sortOptions = [
-  { name: "Price High To Low", value: "highToLow" },
-  { name: "Price Low To High", value: "lowToHigh" },
+  { name: "Price - High To Low", value: "highToLow" },
+  { name: "Price - Low To High", value: "lowToHigh" },
+  { name: "Rarity - High To Low,", value: "rarityDescending"},
+  { name: "Rarity - Low To High", value: "rarityAscending"}
 ];
 
 const SelectNetwork = styled.div`
@@ -59,9 +61,9 @@ const Option = styled.option`
 
 const Select = ({ options, onClick }) => {
   return (
-    <Selector>
+    <Selector onClick={(e) =>  onClick(e.target.value)}>
       {options.map((option) => (
-        <Option onClick={() => onClick(option.value)} value={option.value}>
+        <Option  value={option.value}>
           {option.name}
         </Option>
       ))}
@@ -75,8 +77,6 @@ export default ({
   sortBy,
   setSortBy,
 }) => {
-  console.log(sortBy);
-  console.log(setSortBy);
   return (
     <SelectorContainer>
       <SelectNetwork>
@@ -89,7 +89,7 @@ export default ({
       </SelectNetwork>
       <SortBy>
         Sort By{" "}
-        <Select options={sortOptions} value={sortBy} onChange={() => {console.log(e.target.value);return setSortBy(e.target.value)}} />{" "}
+        <Select options={sortOptions} value={sortBy} onClick={setSortBy} />{" "}
       </SortBy>
     </SelectorContainer>
   );

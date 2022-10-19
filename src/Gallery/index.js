@@ -80,7 +80,7 @@ const TopInfo = styled.div`
 
 
 const sort = (nfts, sortBy) => {
-  console.log(nfts)
+  // console.log(nfts)
   console.log(sortBy)
   const forsale = nfts.filter((nft) => (nft.forSale === true))
   const notforsale = nfts.filter((nft) => (nft.forSale === false))
@@ -92,11 +92,16 @@ const sort = (nfts, sortBy) => {
       case 'highToLow':
         compareFn = (a, b) => ( b.price - a.price)
         break;
+      case 'rarityAscending':
+        compareFn = (a, b) => a.rarity - b.rarity
+        break;
+      case 'rarityDescending':
+        compareFn = (a,b) => b.rarity - a.rarity
       }
-      console.log(compareFn)
+      // console.log(compareFn)
       let sorted =  forsale.sort(compareFn)
-      console.log('this should be sorted')
-      console.log(sorted)
+      // console.log('this should be sorted')
+      // console.log(sorted)
       sorted.push(...notforsale)
       return sorted
     }
@@ -109,12 +114,13 @@ const sort = (nfts, sortBy) => {
       const [, updateState] = React.useState();
       const forceUpdate = React.useCallback(() => updateState({}), []);
       
-      useEffect(() => {
+    useEffect(() => {
     const sorted = sort(nfts, sortBy)
     setSortedNFTS(sorted)
     forceUpdate()
+    // console.log(sortedNFTs)
   }, [sortBy])
-console.log(sortedNFTs)
+// console.log(sortedNFTs)
   return (
     <Page>
       <Navbar />

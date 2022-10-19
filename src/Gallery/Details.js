@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import DataSection from "./DataSection";
-import { Link, useParams, } from "react-router-dom";
+import { Link, useHistory, useParams, } from "react-router-dom";
 import { example } from "../App";
 import backArrow from "../../public/assets/backArrow.png";
 import reachBlack from "../../public/assets/reachLogoBlack.svg";
@@ -78,7 +78,8 @@ const Rarity = styled.div`
 export default () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-
+  const history = useHistory();
+console.log(history);
   useEffect(() => {
     const fetchData = (id) => {
       const fetched = example;
@@ -94,7 +95,7 @@ export default () => {
       <Navbar />
       <BackLink>
         <BackArrow src={backArrow} />
-        <Back to={"/gallery"}>Back</Back>
+        <Back to={`/gallery`}>Back</Back>
       </BackLink>
       <Main>
         <ImageContainer>
