@@ -98,10 +98,7 @@ const sort = (nfts, sortBy) => {
       case 'rarityDescending':
         compareFn = (a,b) => b.rarity - a.rarity
       }
-      // console.log(compareFn)
       let sorted =  forsale.sort(compareFn)
-      // console.log('this should be sorted')
-      // console.log(sorted)
       sorted.push(...notforsale)
       return sorted
     }
@@ -111,16 +108,11 @@ const sort = (nfts, sortBy) => {
       const [selectedNetwork, selectNetwork] = useState();
       const [sortBy, setSortBy] = useState('highToLow');
       const [sortedNFTs, setSortedNFTS] = useState(nfts)
-      const [, updateState] = React.useState();
-      const forceUpdate = React.useCallback(() => updateState({}), []);
       
     useEffect(() => {
     const sorted = sort(nfts, sortBy)
     setSortedNFTS(sorted)
-    forceUpdate()
-    // console.log(sortedNFTs)
   }, [sortBy])
-// console.log(sortedNFTs)
   return (
     <Page>
       <Navbar />

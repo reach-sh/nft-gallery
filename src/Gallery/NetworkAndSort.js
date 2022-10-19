@@ -61,7 +61,7 @@ const Option = styled.option`
 
 const Select = ({ options, onClick }) => {
   return (
-    <Selector onClick={(e) =>  onClick(e.target.value)}>
+    <Selector onChange={(e) =>  onClick(e.target.value)}>
       {options.map((option) => (
         <Option  value={option.value}>
           {option.name}
