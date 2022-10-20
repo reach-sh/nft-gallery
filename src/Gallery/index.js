@@ -13,7 +13,7 @@ const Page = styled.div`
   max-width: 1920px;
   display: flex;
   flex-direction: column;
-  background-position: 0% 0%;
+    background: #000000;
   @media only screen and (max-width: 375px) {
     max-width: 375px;
   }

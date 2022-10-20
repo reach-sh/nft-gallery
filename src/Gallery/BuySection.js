@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Button";
 import eth from "../../public/assets/ethereum.png";
@@ -193,7 +194,7 @@ const Summary = ({
         />
       </ExpandedSummary>
     );
-  } else return null
+  } else return null;
 };
 
 const PriceSummary = ({ open, onChange }) => {
@@ -212,7 +213,8 @@ const PriceSummary = ({ open, onChange }) => {
 
 export default ({ data }) => {
   const [showPriceSummary, toggleShowPrice] = useState(false);
-
+  const history = useHistory();
+  const location = useLocation();
   if (!data.owned) {
     return (
       <>
@@ -254,15 +256,15 @@ export default ({ data }) => {
     return (
       <>
         {data.forSale ? (
-          <ListButton label="Unlist" outline />
+          <UnlistButton label="Unlist" outline backgroundColor="#0000000;" />
         ) : (
-          <UnlistButton
+          <ListButton
             label="List For Sale"
             outline
-            backgroundColor="#0000000;"
+            onClick={() => history.push(`/gallery/list/${data.number}`, {background: location })}
           />
         )}
       </>
-    )
+    );
   }
 };

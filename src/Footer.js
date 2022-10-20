@@ -34,6 +34,7 @@ const Footer = styled.div`
   padding: 1%;
   display: flex;
   align-items: center;
+  height: 197px;;
   @media only screen and (max-width: 375px) {
     position: relative;
     width: 375px;
