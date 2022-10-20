@@ -80,13 +80,11 @@ const TopInfo = styled.div`
 
 
 const sort = (nfts, sortBy) => {
-  // console.log(nfts)
-  console.log(sortBy)
   const forsale = nfts.filter((nft) => (nft.forSale === true))
   const notforsale = nfts.filter((nft) => (nft.forSale === false))
   let compareFn;
   switch (sortBy) {
-    case 'lowTohigh':
+    case 'lowToHigh':
       compareFn = (a, b) => a.price - b.price
       break;
       case 'highToLow':
