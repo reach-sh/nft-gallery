@@ -8,7 +8,7 @@ import decoBG from "../../public/assets/deco-bg.png";
 import NetworkAndSortSelectors from "./NetworkAndSort";
 import CategorySelector from "./CategorySelector";
 import useDeepCompareEffect from "use-deep-compare-effect";
-import { IgnorePlugin } from "webpack";
+
 const categories = ["All", "For Sale", "Owned"];
 
 const Page = styled.div`
@@ -88,22 +88,17 @@ const attributeFilterFunction = (predicates, nfts, categories) => {
       : map.set(predicate.category, [predicate.value]);
   });
   const filtered = nfts.filter((nft) => {
-    //some face items are true & some glasses items are true && some skin items are true && some outfit items are true
     const truthArray = categories.map(category => {
       let truthValue = true
       if(map.get(category)){
         truthValue =  map.get(category).includes(nft.attributes[category])
       } else {
-        // console.log('returning null')
         truthValue = true
       }
       return truthValue
     })
-    console.log(truthArray)
     return !truthArray.includes(false)
   })
-  console.log(nfts)
-  console.log(filtered)
   return filtered;
 };
 
