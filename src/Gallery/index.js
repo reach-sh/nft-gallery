@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useRef } from "react";
 import styled from "styled-components";
 import KeyDetails from "./KeyDetails";
 import Navbar from "../Navbar";
@@ -163,18 +163,31 @@ const sort = (nfts, sortBy) => {
       sorted = forsale.sort(compareFn);
       break;
     case "rarityAscending":
-      compareFn = (a, b) => a.rarity - b.rarity;
+      compareFn = (a, b) => b.rarity - a.rarity;
       sorted = nfts.sort(compareFn);
       break;
-    case "rarityDescending":
-      compareFn = (a, b) => b.rarity - a.rarity;
+      case "rarityDescending":
+      compareFn = (a, b) => a.rarity - b.rarity;
       sorted = nfts.sort(compareFn);
   }
 
   return sorted;
 };
 
+const getInRangeNFTs = (nfts, priceRange) => {
+  return nfts.filter((nft) => (nft.price > priceRange.min && nft.price < priceRange.max))
+}
+
+const initialCriteriaState = {
+  face: [0, 0, 0, 0, 0],
+  glasses: [0, 0, 0, 0, 0],
+  outfit: [0, 0, 0, 0, 0],
+  skin: [0, 0, 0, 0, 0],
+}
 const criteriaReducer = (state, action) => {
+  if(action.category === 'reset'){
+    return initialCriteriaState
+  }
   const currentValue = state[action.category][action.attribute];
   const newValue = 1 - currentValue;
   const newArray = [...state[action.category]];
@@ -185,29 +198,31 @@ const criteriaReducer = (state, action) => {
   };
   return newState;
 };
-
 export default ({ nfts }) => {
   const [selectedCategory, selectCategory] = useState("All");
   const [selectedNetwork, selectNetwork] = useState();
   const [sortBy, setSortBy] = useState("highToLow");
   const [sortedNFTS, setSortedNFTS] = useState(nfts);
   const [criteriaChanged, setCriteriaChangedCount] = useState(0);
-  const [selectedCriteria, dispatch] = useReducer(criteriaReducer, {
-    face: [0, 0, 0, 0, 0],
-    glasses: [0, 0, 0, 0, 0],
-    outfit: [0, 0, 0, 0, 0],
-    skin: [0, 0, 0, 0, 0],
-  });
+  const [selectedCriteria, dispatch] = useReducer(criteriaReducer, initialCriteriaState);
+  const [priceRange, setPriceRange] = useState({min: 10, max:10000});
+  const rangeSlider = useRef();
+  const resetFilters = () => {
+    dispatch({category: 'reset'})
+    setPriceRange({min: 10, max: 10000})
+  }
 
   useDeepCompareEffect(() => {
     setCriteriaChangedCount(criteriaChanged + 1);
   }, [selectedCriteria]);
 
   useEffect(() => {
-    const filtered = filter(nfts, selectedCategory, selectedCriteria);
+    const ranged = getInRangeNFTs(nfts, priceRange)
+    const filtered = filter(ranged, selectedCategory, selectedCriteria);
     const sorted = sort(filtered, sortBy);
     setSortedNFTS(sorted);
-  }, [sortBy, selectedCategory, criteriaChanged]);
+  }, [sortBy, selectedCategory, criteriaChanged, priceRange]);
+
   return (
     <Page>
       <Navbar />
@@ -230,6 +245,10 @@ export default ({ nfts }) => {
           networkToken={"ETH"}
           selectedCriteria={selectedCriteria}
           dispatch={dispatch}
+          resetFilters={resetFilters}
+          ref={rangeSlider}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
         />
         <Gallery>
           {sortedNFTS.map((value) => {

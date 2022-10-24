@@ -180,9 +180,7 @@ const attributePossibilities = {
     { name: "Toast", value: 3, howMany: 3 },
   ],
 };
-export default ({ networkToken, dispatch, selectedCriteria }) => {
-  const [lowerLimit, setLowerLimit] = useState(10);
-  const [upperLimit, setUpperLimit] = useState(10000);
+export default ({ networkToken, dispatch, selectedCriteria, resetFilters, rangeSlider, priceRange, setPriceRange }) => {
   const [face, openFace] = useState(false);
   const [glasses, openGlasses] = useState(false);
   const [outfit, openOutfit] = useState(false);
@@ -202,19 +200,19 @@ export default ({ networkToken, dispatch, selectedCriteria }) => {
           <Title>BACKGROUND</Title>
           <Minus src={dash} />
         </Heading>
-        <RangeSlider />
+        <RangeSlider priceRange={priceRange} setPriceRange={setPriceRange}/>
         <RangeGuide>
           <RangePoint
             minOrMax="MIN"
-            value={lowerLimit}
+            value={priceRange.min}
             networkToken={networkToken}
-            onChange={(e) => setLowerLimit(e.target.value)}
+            // onChange={(e) => setLowerLimit(e.target.value)}
           />
           <RangePoint
             minOrMax="MAX"
-            value={upperLimit}
+            value={priceRange.max}
             networkToken={networkToken}
-            onChange={(e) => setUpperLimit(e.target.value)}
+            // onChange={(e) => setUpperLimit(e.target.value)}
           />
         </RangeGuide>
         <Heading>
@@ -270,7 +268,7 @@ export default ({ networkToken, dispatch, selectedCriteria }) => {
           />
         ))}
       </Attributes>
-      <ResetButton label="RESET FILTER" outline />
+      <ResetButton label="RESET FILTER" outline onClick={() => resetFilters()}/>
     </SidePanel>
   );
 };

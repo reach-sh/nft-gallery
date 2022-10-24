@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import * as noUiSlider from "nouislider";
 import styled from "styled-components";
 import "nouislider/dist/nouislider.css";
+import Nouislider from "nouislider-react";
 
 const Container = styled.div`
   width: 260px;
@@ -45,22 +46,19 @@ const Container = styled.div`
 
 const PriceBar = styled.div``;
 
-export default () => {
-  const rangeSlider = useRef();
-  useEffect(() => {
-    if (rangeSlider.current === undefined) {
-      noUiSlider.create(rangeSlider.current, {
-        range: { min: 0, max: 10000 },
-        start: [10, 10000],
-        margin: 100,
-        connect: false,
-      });
-    }
-  });
-
+export default ({ priceRange, setPriceRange }) => {
+  const onUpdate = (range) => {
+    setPriceRange({ min: range[0], max: range[1] });
+  };
   return (
     <Container>
-      <PriceBar ref={rangeSlider}>{}</PriceBar>
+      <PriceBar>
+        <Nouislider
+          range={{ min: 0, max: 10000 }}
+          start={[~~priceRange.min, ~~priceRange.max]}
+          onUpdate={onUpdate}
+        />
+      </PriceBar>
     </Container>
   );
 };
