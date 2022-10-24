@@ -63,7 +63,7 @@ const Select = ({ options, onClick }) => {
   return (
     <Selector onChange={(e) =>  onClick(e.target.value)}>
       {options.map((option) => (
-        <Option  value={option.value}>
+        <Option  value={option.value} key={option.value}>
           {option.name}
         </Option>
       ))}

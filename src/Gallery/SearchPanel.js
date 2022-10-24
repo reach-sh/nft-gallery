@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import styled from "styled-components";
 import Button from "../Button";
 import magnifyingGlass from "../../public/assets/magnifyingGlass.png";
@@ -14,11 +14,9 @@ const Attributes = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  /* justify-content: flex-start; */
-   @media only screen and (max-width: 375px) {
+  @media only screen and (max-width: 375px) {
     display: none;
-   }
-
+  }
 `;
 const ResetButton = styled((props) => <Button {...props} />)`
   background-color: #000000;
@@ -32,7 +30,7 @@ const ResetButton = styled((props) => <Button {...props} />)`
   margin-top: 24px;
   @media only screen and (max-width: 375px) {
     display: none;
-   }
+  }
 `;
 const SearchInput = styled.div`
   width: 352px;
@@ -49,7 +47,7 @@ const SidePanel = styled.div`
   margin-top: 48px;
   @media only screen and (max-width: 375px) {
     margin-left: 10px;
-   }
+  }
 `;
 const SearchInner = styled.input`
   width: 240px;
@@ -67,7 +65,6 @@ const SearchInner = styled.input`
   margin-right: 20px;
 `;
 
-const criteria = [1, 2, 3, 4, 5];
 const RangeGuide = styled.div`
   color: #ffffff;
   display: flex;
@@ -76,12 +73,11 @@ const RangeGuide = styled.div`
   width: 250px;
 `;
 const MinOrMax = styled.div`
-${(props) => props.minOrMax === 'MAX' ? 'text-align: right;': ""};
-color: #999999;
+  ${(props) => (props.minOrMax === "MAX" ? "text-align: right;" : "")};
+  color: #999999;
 `;
 const Value = styled.div``;
-const RP = styled.div`
-`
+const RP = styled.div``;
 const RangePoint = ({ minOrMax, value, networkToken }) => (
   <RP>
     <MinOrMax minOrMax={minOrMax}>{minOrMax}</MinOrMax>
@@ -129,26 +125,71 @@ const Crit = styled.span`
   display: flex;
   flex-direction: row;
   gap: 8px;
+  ${(props) => (props.open ? "" : "display: none;")}
 `;
 
 const CriteriaNumber = styled.div`
   color: #999999;
 `;
 
-const PlusOrMinus = (open) =>
-  open ? <Minus src={dash} /> : <Plus src={plus} />;
-const Criteria = ({ criteria, checked }) => (
-  <Crit>
-    <Checkbox checked={checked} />
-    <span style={{ marginLeft: "3px" }}> Criteria {criteria}</span>
-    <CriteriaNumber>19</CriteriaNumber>
-  </Crit>
-);
-const Checkbox = ({ checked }) =>
-  checked ? <Checked src={checkedbox} /> : <Unchecked src={unchecked} />;
-export default ({ networkToken }) => {
+const PlusOrMinus = ({ open, onClick }) =>
+  open ? (
+    <Minus src={dash} onClick={onClick} />
+  ) : (
+    <Plus src={plus} onClick={onClick} />
+  );
+const Criteria = ({ criteria, checked, open, onClick }) => {
+  return (
+    <Crit open={open}>
+      <Checkbox checked={checked} onClick={onClick} />
+      <span style={{ marginLeft: "3px" }}> {criteria.name}</span>
+      <CriteriaNumber>{criteria.value}</CriteriaNumber>
+    </Crit>
+  );
+};
+const Checkbox = ({ checked, onClick }) =>
+  checked ? (
+    <Checked src={checkedbox} onClick={onClick} />
+  ) : (
+    <Unchecked src={unchecked} onClick={onClick} />
+  );
+
+const attributePossibilities = {
+  face: [
+    { name: "Cute", value: 0, howMany: 2 },
+    { name: "Ugly", value: 1, howMany: 2 },
+    { name: "Butter", value: 2, howMany: 2 },
+    { name: "Stone", value: 3, howMany: 2 },
+  ],
+  outfit: [
+    { name: "Butter", value: 0, howMany: 12 },
+    { name: "Disco", value: 1, howMany: 3 },
+    { name: "Hiesenberg", value: 2, howMany: 4 },
+    { name: "Disco", value: 3, howMany: 3 },
+  ],
+  glasses: [
+    { name: "Aviator", value: 0, howMany: 12 },
+    { name: "Nerd", value: 1, howMany: 3 },
+    { name: "Wraparound", value: 2, howMany: 4 },
+    { name: "Safety", value: 3, howMany: 3 },
+  ],
+  skin: [
+    { name: "Butter", value: 0, howMany: 1 },
+    { name: "Bacon", value: 1, howMany: 3 },
+    { name: "Egg", value: 2, howMany: 4 },
+    { name: "Toast", value: 3, howMany: 3 },
+  ],
+};
+export default ({ networkToken, dispatch, selectedCriteria }) => {
   const [lowerLimit, setLowerLimit] = useState(10);
   const [upperLimit, setUpperLimit] = useState(10000);
+  const [face, openFace] = useState(false);
+  const [glasses, openGlasses] = useState(false);
+  const [outfit, openOutfit] = useState(false);
+  const [skin, openSkin] = useState(false);
+  const toggleCriteria = (cat, index) => {
+    dispatch({ category: cat, attribute: index });
+  };
   return (
     <SidePanel>
       <SearchInput>
@@ -178,44 +219,58 @@ export default ({ networkToken }) => {
         </RangeGuide>
         <Heading>
           <Title>FACE</Title>
-          <Plus src={plus} />
+          <PlusOrMinus open={face} onClick={() => openFace(!face)} />
         </Heading>
-        {criteria.map((crit) => (
-          <Criteria criteria={crit} checked={Math.random() < 0.5}>
-            {crit}
-          </Criteria>
+        {attributePossibilities.face.map((crit, index) => (
+          <Criteria
+            criteria={crit}
+            key={`face${crit.value}`}
+            open={face}
+            checked={selectedCriteria.face[index]}
+            onClick={() => toggleCriteria("face", index)}
+          />
         ))}
         <Heading>
           <Title>GLASSES</Title>
-          <PlusOrMinus open />
+          <PlusOrMinus open={glasses} onClick={() => openGlasses(!glasses)} />
         </Heading>
-         {/* {criteria.map((crit) => (
-          <Criteria criteria={crit} checked={Math.random() < 0.5}>
-            {crit}
-          </Criteria>
-        ))} */}
+        {attributePossibilities.glasses.map((crit, index) => (
+          <Criteria
+            criteria={crit}
+            key={`glasses${crit.value}`}
+            open={glasses}
+            checked={selectedCriteria.glasses[index]}
+            onClick={() => toggleCriteria("glasses", index)}
+          />
+        ))}
         <Heading>
           <Title>OUTFIT</Title>
-          <PlusOrMinus open />
+          <PlusOrMinus open={outfit} onClick={() => openOutfit(!outfit)} />
         </Heading>
-         {/* {criteria.map((crit) => (
-          <Criteria criteria={crit} checked={Math.random() < 0.5}>
-            {crit}
-          </Criteria>
-        ))} */}
+        {attributePossibilities.outfit.map((crit, index) => (
+          <Criteria
+            criteria={crit}
+            key={`outfit${crit.value}`}
+            open={outfit}
+            checked={selectedCriteria.outfit[index]}
+            onClick={() => toggleCriteria("outfit", index)}
+          />
+        ))}
         <Heading>
           <Title>SKIN</Title>
-          <PlusOrMinus open />
+          <PlusOrMinus open={skin} onClick={() => openSkin(!skin)} />
         </Heading>
-         {/* {criteria.map((crit) => (
-          <Criteria criteria={crit} checked={Math.random() < 0.5}>
-            {crit}
-          </Criteria>
-        ))} */}
+        {attributePossibilities.skin.map((crit, index) => (
+          <Criteria
+            criteria={crit}
+            key={`skin${crit.value}`}
+            open={skin}
+            checked={selectedCriteria.skin[index]}
+            onClick={() => toggleCriteria("skin", index)}
+          />
+        ))}
       </Attributes>
       <ResetButton label="RESET FILTER" outline />
     </SidePanel>
   );
 };
-{
-}

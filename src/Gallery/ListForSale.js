@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 import Truncate from "react-truncate";
 const borderValidity = (valid) => {
   let color;
-  console.log(valid)
+
   switch (valid) {
     case "valid":
       color = "#4536DA";
@@ -277,10 +277,7 @@ const InfoBox = (nft) => {
   };
   
   const validateFee = (fee) =>{
-    console.log(typeof fee)
-    console.log(fee.length)
     if(fee.length === 0){
-      console.log('eureka')
       setFeeValid('empty')
     }
     
@@ -291,9 +288,6 @@ const InfoBox = (nft) => {
     } else if (fee.length === 0) {
       setFeeValid("empty");
     }
-    //  else if (isNaN(~~fee) || ~~fee < 1.5 || ~~fee > (100 - (100*royalty))) {
-      //     setFeeValid("invalid");
-      //   }
     }
     
     useEffect(() => {

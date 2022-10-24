@@ -182,6 +182,7 @@ export default ({ data }) => {
                 value={attr.value}
                 howMany={attr.howMany}
                 collectionSize={data.collectionSize}
+                key={attr.value}
               />
             ))
           : ""}
