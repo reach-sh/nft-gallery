@@ -163,11 +163,11 @@ const sort = (nfts, sortBy) => {
       sorted = forsale.sort(compareFn);
       break;
     case "rarityAscending":
-      compareFn = (a, b) => b.rarity - a.rarity;
+      compareFn = (a, b) => a.rarity - b.rarity;
       sorted = nfts.sort(compareFn);
       break;
       case "rarityDescending":
-      compareFn = (a, b) => a.rarity - b.rarity;
+        compareFn = (a, b) => b.rarity - a.rarity;
       sorted = nfts.sort(compareFn);
   }
 

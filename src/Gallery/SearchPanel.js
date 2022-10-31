@@ -8,6 +8,7 @@ import dash from "../../public/assets/dash.png";
 import unchecked from "../../public/assets/checkBox.png";
 import checkedbox from "../../public/assets/checkedBox.png";
 import RangeSlider from "./RangeSlider";
+import { attributePossibilities } from "../App";
 
 const Attributes = styled.div`
   top: 24px;
@@ -154,32 +155,7 @@ const Checkbox = ({ checked, onClick }) =>
     <Unchecked src={unchecked} onClick={onClick} />
   );
 
-const attributePossibilities = {
-  face: [
-    { name: "Cute", value: 0, howMany: 2 },
-    { name: "Ugly", value: 1, howMany: 2 },
-    { name: "Butter", value: 2, howMany: 2 },
-    { name: "Stone", value: 3, howMany: 2 },
-  ],
-  outfit: [
-    { name: "Butter", value: 0, howMany: 12 },
-    { name: "Disco", value: 1, howMany: 3 },
-    { name: "Hiesenberg", value: 2, howMany: 4 },
-    { name: "Disco", value: 3, howMany: 3 },
-  ],
-  glasses: [
-    { name: "Aviator", value: 0, howMany: 12 },
-    { name: "Nerd", value: 1, howMany: 3 },
-    { name: "Wraparound", value: 2, howMany: 4 },
-    { name: "Safety", value: 3, howMany: 3 },
-  ],
-  skin: [
-    { name: "Butter", value: 0, howMany: 1 },
-    { name: "Bacon", value: 1, howMany: 3 },
-    { name: "Egg", value: 2, howMany: 4 },
-    { name: "Toast", value: 3, howMany: 3 },
-  ],
-};
+
 export default ({ networkToken, dispatch, selectedCriteria, resetFilters, rangeSlider, priceRange, setPriceRange }) => {
   const [face, openFace] = useState(false);
   const [glasses, openGlasses] = useState(false);

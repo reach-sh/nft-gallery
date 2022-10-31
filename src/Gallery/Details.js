@@ -3,8 +3,7 @@ import styled from "styled-components";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import DataSection from "./DataSection";
-import { Link, useHistory, useParams, } from "react-router-dom";
-import { example } from "../App";
+import {  useHistory, useParams, } from "react-router-dom";
 import backArrow from "../../public/assets/backArrow.png";
 import reachBlack from "../../public/assets/reachLogoBlack.svg";
 
@@ -79,15 +78,18 @@ export default ({nfts}) => {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const history = useHistory();
+  console.log(data)
   useEffect(() => {
     const fetchData = (id) => {
       const fetched = nfts.filter((nft) => { return (nft.number == id)});
+      console.log(fetched)
       setData(fetched);
     };
 
     fetchData(id);
   }, [id]);
 const nft = data[0]
+console.log(nft)
   return (
     <Page>
       <Navbar />
@@ -99,11 +101,11 @@ const nft = data[0]
         <ImageContainer>
           <Badge>
             <BadgeLogo src={reachBlack} />
-            <Rarity>{nft ? nft.rarity : ''}</Rarity>
+            <Rarity>{nft? nft.rarity : ''}</Rarity>
           </Badge>
-          <Image src={nft ? nft.rarity : ''} />
+          <Image src={nft? nft.url: ''} />
         </ImageContainer>
-        <DataSection data={nft} />
+        <DataSection nft={nft ? nft : ''} collectionSize={nfts.length}/>
       </Main>
       <Footer />
     </Page>
