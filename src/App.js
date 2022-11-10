@@ -11,7 +11,33 @@ import './App.css';
 const demo = { url: evieOrganized, rarity: "67.6%", forSale: false, owned: true, setName: "Evie Set", name: "Evie Organized", number: 13, price: 75 }
 const setsize = Math.floor(Math.random() * 100)
 const set = Array.from(Array(setsize).keys())
-const nfts = set.map((value) => ({...demo, rarity: Math.floor(Math.random() * 100), number: value, forSale: (Math.random() < 0.5), owned: (Math.random() < 0.5),  price: Math.floor(Math.random() * 1000) }))
+const nfts = set.map((value) => ({...demo, number: Math.floor(Math.random() * (setsize )), attributes: {face: Math.floor(Math.random() * 3), glasses: Math.floor(Math.random() * 3), skin: Math.floor(Math.random() * 3), outfit: Math.floor(Math.random() * 3)}, rarity: Math.floor(Math.random() * 100), number: value, forSale: (Math.random() < 0.5), owned: (Math.random() < 0.5),  price: Math.floor(Math.random() * 10000) }))
+export const attributePossibilities = {
+  face: [
+    { name: "Cute", value: 0, howMany: 2 },
+    { name: "Ugly", value: 1, howMany: 2 },
+    { name: "Butter", value: 2, howMany: 2 },
+    { name: "Stone", value: 3, howMany: 2 },
+  ],
+  outfit: [
+    { name: "Butter", value: 0, howMany: 12 },
+    { name: "Disco", value: 1, howMany: 3 },
+    { name: "Hiesenberg", value: 2, howMany: 4 },
+    { name: "Disco", value: 3, howMany: 3 },
+  ],
+  glasses: [
+    { name: "Aviator", value: 0, howMany: 12 },
+    { name: "Nerd", value: 1, howMany: 3 },
+    { name: "Wraparound", value: 2, howMany: 4 },
+    { name: "Safety", value: 3, howMany: 3 },
+  ],
+  skin: [
+    { name: "Butter", value: 0, howMany: 1 },
+    { name: "Bacon", value: 1, howMany: 3 },
+    { name: "Egg", value: 2, howMany: 4 },
+    { name: "Toast", value: 3, howMany: 3 },
+  ],
+};
 export const example = {
     collectionSize: 24,
     owner: "1234567890987654321",
@@ -40,7 +66,7 @@ const App = () => {
       <Switch location={background || location}>
     <Route exact={true} path="/" component={Home} />
     <Route exact={true} path="/gallery/:network" render={(props) => <Gallery nfts={nfts} {...props}/>}/>
-    <Route exact={true} path="/gallery/detail/:id" component={Details} />
+    <Route exact={true} path="/gallery/detail/:id" render={(props) => <Details nfts={nfts} {...props}/>} />
     <Route exact={true} path="/about" component={About}/>
   </Switch>
   {background && <Route path="/gallery/list/:id" children={<ListForSale />} />}

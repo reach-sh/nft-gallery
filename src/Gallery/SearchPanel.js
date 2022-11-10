@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import styled from "styled-components";
 import Button from "../Button";
 import magnifyingGlass from "../../public/assets/magnifyingGlass.png";
@@ -8,17 +8,16 @@ import dash from "../../public/assets/dash.png";
 import unchecked from "../../public/assets/checkBox.png";
 import checkedbox from "../../public/assets/checkedBox.png";
 import RangeSlider from "./RangeSlider";
+import { attributePossibilities } from "../App";
 
 const Attributes = styled.div`
   top: 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  /* justify-content: flex-start; */
-   @media only screen and (max-width: 375px) {
+  @media only screen and (max-width: 375px) {
     display: none;
-   }
-
+  }
 `;
 const ResetButton = styled((props) => <Button {...props} />)`
   background-color: #000000;
@@ -32,7 +31,7 @@ const ResetButton = styled((props) => <Button {...props} />)`
   margin-top: 24px;
   @media only screen and (max-width: 375px) {
     display: none;
-   }
+  }
 `;
 const SearchInput = styled.div`
   width: 352px;
@@ -49,7 +48,7 @@ const SidePanel = styled.div`
   margin-top: 48px;
   @media only screen and (max-width: 375px) {
     margin-left: 10px;
-   }
+  }
 `;
 const SearchInner = styled.input`
   width: 240px;
@@ -67,7 +66,6 @@ const SearchInner = styled.input`
   margin-right: 20px;
 `;
 
-const criteria = [1, 2, 3, 4, 5];
 const RangeGuide = styled.div`
   color: #ffffff;
   display: flex;
@@ -76,12 +74,11 @@ const RangeGuide = styled.div`
   width: 250px;
 `;
 const MinOrMax = styled.div`
-${(props) => props.minOrMax === 'MAX' ? 'text-align: right;': ""};
-color: #999999;
+  ${(props) => (props.minOrMax === "MAX" ? "text-align: right;" : "")};
+  color: #999999;
 `;
 const Value = styled.div``;
-const RP = styled.div`
-`
+const RP = styled.div``;
 const RangePoint = ({ minOrMax, value, networkToken }) => (
   <RP>
     <MinOrMax minOrMax={minOrMax}>{minOrMax}</MinOrMax>
@@ -129,26 +126,44 @@ const Crit = styled.span`
   display: flex;
   flex-direction: row;
   gap: 8px;
+  ${(props) => (props.open ? "" : "display: none;")}
 `;
 
 const CriteriaNumber = styled.div`
   color: #999999;
 `;
 
-const PlusOrMinus = (open) =>
-  open ? <Minus src={dash} /> : <Plus src={plus} />;
-const Criteria = ({ criteria, checked }) => (
-  <Crit>
-    <Checkbox checked={checked} />
-    <span style={{ marginLeft: "3px" }}> Criteria {criteria}</span>
-    <CriteriaNumber>19</CriteriaNumber>
-  </Crit>
-);
-const Checkbox = ({ checked }) =>
-  checked ? <Checked src={checkedbox} /> : <Unchecked src={unchecked} />;
-export default ({ networkToken }) => {
-  const [lowerLimit, setLowerLimit] = useState(10);
-  const [upperLimit, setUpperLimit] = useState(10000);
+const PlusOrMinus = ({ open, onClick }) =>
+  open ? (
+    <Minus src={dash} onClick={onClick} />
+  ) : (
+    <Plus src={plus} onClick={onClick} />
+  );
+const Criteria = ({ criteria, checked, open, onClick }) => {
+  return (
+    <Crit open={open}>
+      <Checkbox checked={checked} onClick={onClick} />
+      <span style={{ marginLeft: "3px" }}> {criteria.name}</span>
+      <CriteriaNumber>{criteria.value}</CriteriaNumber>
+    </Crit>
+  );
+};
+const Checkbox = ({ checked, onClick }) =>
+  checked ? (
+    <Checked src={checkedbox} onClick={onClick} />
+  ) : (
+    <Unchecked src={unchecked} onClick={onClick} />
+  );
+
+
+export default ({ networkToken, dispatch, selectedCriteria, resetFilters, rangeSlider, priceRange, setPriceRange }) => {
+  const [face, openFace] = useState(false);
+  const [glasses, openGlasses] = useState(false);
+  const [outfit, openOutfit] = useState(false);
+  const [skin, openSkin] = useState(false);
+  const toggleCriteria = (cat, index) => {
+    dispatch({ category: cat, attribute: index });
+  };
   return (
     <SidePanel>
       <SearchInput>
@@ -161,61 +176,75 @@ export default ({ networkToken }) => {
           <Title>BACKGROUND</Title>
           <Minus src={dash} />
         </Heading>
-        <RangeSlider />
+        <RangeSlider priceRange={priceRange} setPriceRange={setPriceRange}/>
         <RangeGuide>
           <RangePoint
             minOrMax="MIN"
-            value={lowerLimit}
+            value={priceRange.min}
             networkToken={networkToken}
-            onChange={(e) => setLowerLimit(e.target.value)}
+            // onChange={(e) => setLowerLimit(e.target.value)}
           />
           <RangePoint
             minOrMax="MAX"
-            value={upperLimit}
+            value={priceRange.max}
             networkToken={networkToken}
-            onChange={(e) => setUpperLimit(e.target.value)}
+            // onChange={(e) => setUpperLimit(e.target.value)}
           />
         </RangeGuide>
         <Heading>
           <Title>FACE</Title>
-          <Plus src={plus} />
+          <PlusOrMinus open={face} onClick={() => openFace(!face)} />
         </Heading>
-        {criteria.map((crit) => (
-          <Criteria criteria={crit} checked={Math.random() < 0.5}>
-            {crit}
-          </Criteria>
+        {attributePossibilities.face.map((crit, index) => (
+          <Criteria
+            criteria={crit}
+            key={`face${crit.value}`}
+            open={face}
+            checked={selectedCriteria.face[index]}
+            onClick={() => toggleCriteria("face", index)}
+          />
         ))}
         <Heading>
           <Title>GLASSES</Title>
-          <PlusOrMinus open />
+          <PlusOrMinus open={glasses} onClick={() => openGlasses(!glasses)} />
         </Heading>
-         {/* {criteria.map((crit) => (
-          <Criteria criteria={crit} checked={Math.random() < 0.5}>
-            {crit}
-          </Criteria>
-        ))} */}
+        {attributePossibilities.glasses.map((crit, index) => (
+          <Criteria
+            criteria={crit}
+            key={`glasses${crit.value}`}
+            open={glasses}
+            checked={selectedCriteria.glasses[index]}
+            onClick={() => toggleCriteria("glasses", index)}
+          />
+        ))}
         <Heading>
           <Title>OUTFIT</Title>
-          <PlusOrMinus open />
+          <PlusOrMinus open={outfit} onClick={() => openOutfit(!outfit)} />
         </Heading>
-         {/* {criteria.map((crit) => (
-          <Criteria criteria={crit} checked={Math.random() < 0.5}>
-            {crit}
-          </Criteria>
-        ))} */}
+        {attributePossibilities.outfit.map((crit, index) => (
+          <Criteria
+            criteria={crit}
+            key={`outfit${crit.value}`}
+            open={outfit}
+            checked={selectedCriteria.outfit[index]}
+            onClick={() => toggleCriteria("outfit", index)}
+          />
+        ))}
         <Heading>
           <Title>SKIN</Title>
-          <PlusOrMinus open />
+          <PlusOrMinus open={skin} onClick={() => openSkin(!skin)} />
         </Heading>
-         {/* {criteria.map((crit) => (
-          <Criteria criteria={crit} checked={Math.random() < 0.5}>
-            {crit}
-          </Criteria>
-        ))} */}
+        {attributePossibilities.skin.map((crit, index) => (
+          <Criteria
+            criteria={crit}
+            key={`skin${crit.value}`}
+            open={skin}
+            checked={selectedCriteria.skin[index]}
+            onClick={() => toggleCriteria("skin", index)}
+          />
+        ))}
       </Attributes>
-      <ResetButton label="RESET FILTER" outline />
+      <ResetButton label="RESET FILTER" outline onClick={() => resetFilters()}/>
     </SidePanel>
   );
 };
-{
-}

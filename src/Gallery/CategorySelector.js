@@ -12,7 +12,7 @@ const Category = styled.div`
   font-size: 20px;
   line-height: 24px;
   white-space: nowrap;
-`;
+  `;
 
 const CategoryContainer = styled.div`
   padding: 10px;
@@ -24,7 +24,7 @@ const CategoryContainer = styled.div`
   height: 36px;
   ${(props) => (props.selected ? "border-bottom: 3px solid #4536da;" : "")}
 `;
-const Catbox = styled.div`
+const Catbox = styled.ul`
   margin-top: 58px;
   display: flex;
   flex-direction: row;
@@ -34,20 +34,14 @@ const Catbox = styled.div`
      margin-left: 40px;
     }
 `;
-export default ({ categories, selected }) => (
-  <Catbox>
+export default ({ categories, selected, changeHandler }) => (
+  <Catbox value={selected} onClick={(e) =>  {changeHandler(e.target.innerText)}}>
     {categories.map((category) => {
       return (
-        <CategoryContainer selected={category === selected} key={category}>
-          {category === selected ? (
-            <Category key={category} value={category} selected>
+        <CategoryContainer value={category} selected={(selected === category)} key={category} >
+            <Category key={category} selected={(selected === category)} >
               {category}
             </Category>
-          ) : (
-            <Category key={category} value={category}>
-              {category}
-            </Category>
-          )}
         </CategoryContainer>
       );
     })}

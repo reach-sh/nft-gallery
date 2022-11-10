@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import BuySection from "./BuySection";
 import divider from "../../public/assets/divider.svg";
+import { attributePossibilities } from "../App";
 
 const Attributes = styled.div`
   display: flex;
@@ -157,37 +158,45 @@ const Attr = ({ name, value, howMany, collectionSize }) => {
   );
 };
 
-export default ({ data }) => {
-  return (
+export default ({nft, collectionSize}) => {
+  if (nft){
+    console.log(nft.attributes)
+    return (
     <Data>
-      <Set>{data.setName}</Set>
+      <Set>{nft.setName}</Set>
       <NameAndNumber>
-        <Name>{data.name}</Name>
-        <Num>#{data.number}</Num>
+        <Name>{nft.name}</Name>
+        <Num>#{nft.number}</Num>
       </NameAndNumber>
       <StatusSpan>
-        <SaleStatus>{data.forSale ? "For Sale" : "Not For Sale"}</SaleStatus>
-        {data.owned ? <OwnedStatus> Owned </OwnedStatus>: ""}
+        <SaleStatus>{nft.forSale ? "For Sale" : "Not For Sale"}</SaleStatus>
+        {nft.owned ? <OwnedStatus> Owned </OwnedStatus>: ""}
       </StatusSpan>
       <Owner>
         <OwnerLabel>Owner</OwnerLabel> 
         <VerticalDivider src={divider}/>
-        <OwnerId>{data.owner}</OwnerId>
+        <OwnerId>{nft.owner}</OwnerId>
       </Owner>
       <Attributes>
-        {data.attributes
-          ? data.attributes.map((attr) => (
+        {nft.attributes
+          ? Object.keys(nft.attributes).map((attribute, index) => {
+            const rawAttributeValue = nft.attributes[attribute]
+            const resolvedAttributeValues = attributePossibilities[attribute][rawAttributeValue]
+            console.log(nft)
+            return (
               <Attr
-                name={attr.name}
-                value={attr.value}
-                howMany={attr.howMany}
-                collectionSize={data.collectionSize}
+                name={resolvedAttributeValues.name}
+                value={resolvedAttributeValues.value}
+                howMany={resolvedAttributeValues.howMany}
+                collectionSize={collectionSize}
+                key={`${index}` + `${attribute}` + `${resolvedAttributeValues.value}` }
               />
-            ))
+            )})
           : ""}
       </Attributes>
-      <Description>{data.description}</Description>
-      <BuySection data={data} />
+      <Description>{nft.description}</Description>
+      <BuySection data={nft} />
     </Data>
-  );
+  )}
+  else {return "Loading..."}
 };

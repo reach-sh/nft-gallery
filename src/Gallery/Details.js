@@ -3,12 +3,11 @@ import styled from "styled-components";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import DataSection from "./DataSection";
-import { Link, useHistory, useParams, } from "react-router-dom";
-import { example } from "../App";
+import {  useHistory, useParams, } from "react-router-dom";
 import backArrow from "../../public/assets/backArrow.png";
 import reachBlack from "../../public/assets/reachLogoBlack.svg";
 
-const Back = styled((props) => <Link {...props} />)`
+const Back = styled.a`
   margin-left: 10px;
 `;
 const BackArrow = styled.img``;
@@ -75,37 +74,38 @@ const Rarity = styled.div`
   align-self: center;
 `;
 
-export default () => {
+export default ({nfts}) => {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const history = useHistory();
-console.log(history);
+  console.log(data)
   useEffect(() => {
     const fetchData = (id) => {
-      const fetched = example;
-      console.log(example)
+      const fetched = nfts.filter((nft) => { return (nft.number == id)});
+      console.log(fetched)
       setData(fetched);
     };
 
     fetchData(id);
-  });
-
+  }, [id]);
+const nft = data[0]
+console.log(nft)
   return (
     <Page>
       <Navbar />
       <BackLink>
         <BackArrow src={backArrow} />
-        <Back to={`/gallery`}>Back</Back>
+        <Back onClick={() => history.go(-1)}>Back</Back>
       </BackLink>
       <Main>
         <ImageContainer>
           <Badge>
             <BadgeLogo src={reachBlack} />
-            <Rarity>{data.rarity}</Rarity>
+            <Rarity>{nft? nft.rarity : ''}</Rarity>
           </Badge>
-          <Image src={data.url} />
+          <Image src={nft? nft.url: ''} />
         </ImageContainer>
-        <DataSection data={data} />
+        <DataSection nft={nft ? nft : ''} collectionSize={nfts.length}/>
       </Main>
       <Footer />
     </Page>
